@@ -1,5 +1,7 @@
 import streamlit as st
 from ultralytics import YOLO
+import torch
+from ultralytics.nn.tasks import DetectionModel
 import cv2
 import numpy as np
 from PIL import Image
@@ -24,6 +26,8 @@ def load_model():
         st.error(f"❌ Failed to load model: {e}")
         st.stop()
 
+# Allowlist the specific class that is being blocked
+torch.serialization.add_safe_globals([DetectionModel])
 model = load_model()
 
 # ── Helper: run detection on a frame ─────────────────────────
